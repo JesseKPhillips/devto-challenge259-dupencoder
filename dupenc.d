@@ -7,21 +7,15 @@ version(unittest) void main() {}
 else
 void main() {
     import std.datetime.stopwatch : benchmark;
-    void duplicateEncode_php_success() {
-        duplicateEncode_php("Success");
-    }
-    void duplicateEncode_haskel_success() {
-        duplicateEncode_haskel("Success");
-    }
+    auto functionNames = AliasSeq!(
+        "Dlang PHP", () => duplicateEncode_php("Success"),
+        "Dlang Haskel" ,() => duplicateEncode_haskel("success"),
+    );
 
-    auto functionNames = [
-        "Dlang PHP",
-        "Dlang Haskel",
-    ];
-
-    functionNames.zip(benchmark!(
-               duplicateEncode_php_success,
-               duplicateEncode_haskel_success,)(10_000)[])
+    [Stride!(2, functionNames[0..$])]
+        .zip(benchmark!(
+               Stride!(2, functionNames[1..$])
+               )(10_000)[])
         .each!(x => writefln("%20s: %s", x[0], x[1]));
 }
 

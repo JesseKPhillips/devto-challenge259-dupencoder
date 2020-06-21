@@ -12,18 +12,41 @@ const MANY = ')';
 version(unittest) void main() {}
 else
 void main() {
-    import std.datetime.stopwatch : benchmark;
-    auto functionNames = AliasSeq!(
-        "short PHP", () => duplicateEncode_php("Success"),
-        "short Haskel" ,() => duplicateEncode_haskel("Success"),
-        "short Pointer" ,() => duplicateEncode_pointer("Success"),
-    );
+    // List of inputs to utilize for graphing by length
+    alias input = AliasSeq!(
+        "Success",
+        "The quick brown fox jumps overe the lazy dog. And we all want to know what happens when the dog wakes up.",
+        "I am making up Words which I Utilizes for Doing a long sentance which shows how long things will Take as we Move Past the xerox machine. This is going to be a bit longer to really show some of that growth that happens as you get extra long and go past just a simple sentance.",
+        );
 
-    [Stride!(2, functionNames[0..$])]
-        .zip(benchmark!(
-               Stride!(2, functionNames[1..$])
-               )(10_000)[])
-        .each!(x => writefln("%20s: %s", x[0], x[1]));
+    // Given a function and data set group, execute benchmarking against inputs
+    void makeBenchmark(alias f)(string group) {
+        import std.datetime : Duration;
+        void plotData(string group, string[] input, Duration[] time) {
+            import std.file : append;
+            import std.string : format;
+            input.zip(time)
+                .tee!(x => append(group~".dat", format("%s\t%s\n", x[0].length, x[1].total!"msecs")))
+                .each!(x => writefln("Length %5s: %s", x[0].length, x[1]));
+        }
+
+        void callStringOnFunction(alias f, string s)() {
+            f(s);
+        }
+        alias exec(string s) = callStringOnFunction!(f, s);
+
+        import std.datetime.stopwatch : benchmark;
+        auto results = benchmark!(staticMap!(exec, input))(10_000);
+        plotData(group, [input], results[]);
+    }
+
+    ////
+    // Specify the benchmark functions and group
+    ////
+
+    makeBenchmark!(duplicateEncode_php)("php");
+    makeBenchmark!(duplicateEncode_haskel)("haskel");
+    makeBenchmark!(duplicateEncode_pointer)("pointer");
 }
 
 // https://dev.to/jvanbruegge/comment/10e2g

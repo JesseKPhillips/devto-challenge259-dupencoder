@@ -1,4 +1,10 @@
-import std;
+import std.algorithm;
+import std.typecons;
+import std.stdio;
+import std.range;
+import std.meta;
+import std.uni;
+import std.conv;
 
 const ONCE = '(';
 const MANY = ')';
@@ -8,8 +14,9 @@ else
 void main() {
     import std.datetime.stopwatch : benchmark;
     auto functionNames = AliasSeq!(
-        "Dlang PHP", () => duplicateEncode_php("Success"),
-        "Dlang Haskel" ,() => duplicateEncode_haskel("success"),
+        "short PHP", () => duplicateEncode_php("Success"),
+        "short Haskel" ,() => duplicateEncode_haskel("Success"),
+        "short Pointer" ,() => duplicateEncode_pointer("Success"),
     );
 
     [Stride!(2, functionNames[0..$])]
@@ -57,5 +64,28 @@ string duplicateEncode_php(string str) {
     assert(ans == ")())())", ans);
 
     ans = duplicateEncode_php("(( @");
+    assert(ans == "))((", ans);
+}
+
+string duplicateEncode_pointer(string str) {
+    import std.ascii : toLower;
+    auto result = str.dup;
+    char*[][char] locMap;
+
+    foreach(ref c; result)
+        locMap[c.toLower] ~= &c;
+
+    foreach(v; locMap)
+        if(v.length > 1)
+            v.each!(x => *x = MANY);
+        else
+            v.each!(x => *x = ONCE);
+
+    return result.to!string;
+} unittest {
+    auto ans = duplicateEncode_pointer("Success");
+    assert(ans == ")())())", ans);
+
+    ans = duplicateEncode_pointer("(( @");
     assert(ans == "))((", ans);
 }

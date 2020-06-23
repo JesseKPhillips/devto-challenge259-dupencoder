@@ -4,7 +4,7 @@ I didn't really want to solve the challenge per se, so instead I took the top co
 
 For clarity these are all implemented in D and do not reflect the language performance that the implementation is based on.
 
-![Image of Yaktocat](graph.png)
+![Latest Graph](graph.png)
 
 The "Haskel" implementation utilizes a range based map/filter approach to detecting duplicates.
 
@@ -13,3 +13,8 @@ The "PHP" implementation utilizes a nested loop apporach to intentify that the c
 The "Pointer" implementation was just something I wanted to try. It duplicates the array so it is mutable
 after which point it does not loop over the arry twice and instead stores pointers to the location of the
 same character. It takes quite a bit for this approach to see any performance gain.
+
+----
+
+The Haskel implementation was modified to put its performance within the relm of competition.
+![Graph Showing Haskel Change](haskel.png)

@@ -47,6 +47,7 @@ void main() {
     makeBenchmark!(duplicateEncode_php)("php");
     makeBenchmark!(duplicateEncode_haskel)("haskel");
     makeBenchmark!(duplicateEncode_pointer)("pointer");
+    makeBenchmark!(duplicateEncode_go)("go");
 }
 
 // https://dev.to/jvanbruegge/comment/10e2g
@@ -112,5 +113,29 @@ string duplicateEncode_pointer(string str) {
     assert(ans == ")())())", ans);
 
     ans = duplicateEncode_pointer("(( @");
+    assert(ans == "))((", ans);
+}
+
+string duplicateEncode_go(string str) {
+    import std.ascii : toLower;
+    char[] encoded;
+    int[dchar] occurences;
+
+    foreach(character; str)
+        occurences[toLower(character)]++;
+
+    foreach(character; str) {
+        if(occurences[toLower(character)] > 1)
+           encoded ~= MANY;
+        else
+           encoded ~= ONCE;
+    }
+
+    return encoded.to!string;
+} unittest {
+    auto ans = duplicateEncode_go("Success");
+    assert(ans == ")())())", ans);
+
+    ans = duplicateEncode_go("(( @");
     assert(ans == "))((", ans);
 }

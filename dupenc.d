@@ -46,6 +46,7 @@ void main() {
 
     makeBenchmark!(duplicateEncode_php)("php");
     makeBenchmark!(duplicateEncode_haskel)("haskel");
+    makeBenchmark!(duplicateEncode_haskel2)("haskel2");
     makeBenchmark!(duplicateEncode_pointer)("pointer");
 }
 
@@ -60,6 +61,21 @@ string duplicateEncode_haskel(string str) {
     assert(ans == ")())())", ans);
 
     ans = duplicateEncode_haskel("(( @");
+    assert(ans == "))((", ans);
+}
+
+string duplicateEncode_haskel2(string str) {
+    str = str.toLower();
+    return str.map!(x => str.filter!(c => c == x))
+        .map!(x => x.take(2))
+        .map!(x => x.count)
+        .map!(x => x > 1 ? MANY : ONCE)
+        .to!string;
+} unittest {
+    auto ans = duplicateEncode_haskel2("Success");
+    assert(ans == ")())())", ans);
+
+    ans = duplicateEncode_haskel2("(( @");
     assert(ans == "))((", ans);
 }
 

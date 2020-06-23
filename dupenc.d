@@ -25,6 +25,7 @@ void main() {
         void plotData(string group, string[] input, Duration[] time) {
             import std.file : append;
             import std.string : format;
+            writeln(group, " -");
             input.zip(time)
                 .tee!(x => append(group~".dat", format("%s\t%s\n", x[0].length, x[1].total!"msecs")))
                 .each!(x => writefln("Length %5s: %s", x[0].length, x[1]));

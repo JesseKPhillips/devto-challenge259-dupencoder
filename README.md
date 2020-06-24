@@ -17,6 +17,9 @@ same character. It takes quite a bit for this approach to see any performance ga
 ----
 
 The Haskell implementation was modified to put its performance within the relm of competition.
+
+[Commit for Change](https://github.com/JesseKPhillips/devto-challenge259-dupencoder/commit/c794a71328f46ea5c2bccadd2658b03e387ed1db)
+
 ![Graph Showing Haskell Change](haskell.png)
 
 A final modification to the Haskell implementation shows another improvement. This approach was the only
@@ -24,5 +27,7 @@ one which had the potential of correctly handling unicode, as such I've removed 
 representing everything as a char instead of dchar. This optimization didn't assist the others.
 
 This change places Haskell's approach in competation with Go.
+
+[Commit for Change](https://github.com/JesseKPhillips/devto-challenge259-dupencoder/commit/90c26b97fb73e12e8f01bea922477c7c8e107e04)
 
 ![Haskell with no Unicode](haskell2.png)

@@ -53,7 +53,9 @@ void main() {
 string duplicateEncode_haskel(string str) {
     str = str.toLower();
     return str.map!(x => str.filter!(c => c == x))
-        .map!(t => t.count > 1 ? MANY : ONCE)
+        .map!(x => x.take(2))
+        .map!(x => x.count)
+        .map!(x => x > 1 ? MANY : ONCE)
         .to!string;
 } unittest {
     auto ans = duplicateEncode_haskel("Success");

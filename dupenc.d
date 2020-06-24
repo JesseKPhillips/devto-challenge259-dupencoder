@@ -52,8 +52,9 @@ void main() {
 }
 
 // https://dev.to/jvanbruegge/comment/10e2g
-string duplicateEncode_haskel(string str) {
-    str = str.toLower();
+string duplicateEncode_haskel(string input) {
+    import std.string : representation;
+    auto str = input.toLower().representation;
 
     return str.map!(x => str.filter!(c => c == x))
         .map!(x => x.take(2))

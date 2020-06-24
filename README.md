@@ -18,3 +18,11 @@ same character. It takes quite a bit for this approach to see any performance ga
 
 The Haskel implementation was modified to put its performance within the relm of competition.
 ![Graph Showing Haskel Change](haskel.png)
+
+A final modification to the Haskell implementation shows another improvement. This approach was the only
+one which had the potential of correctly handling unicode, as such I've removed that possability by
+representing everything as a char instead of dchar. This optimization didn't assist the others.
+
+This change places Haskell's approach in competation with Go.
+
+![Haskell with no Unicode](haskel2.png)

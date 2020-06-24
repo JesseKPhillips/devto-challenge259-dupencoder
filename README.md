@@ -6,7 +6,7 @@ For clarity these are all implemented in D and do not reflect the language perfo
 
 ![Latest Graph](graph.png)
 
-The "Haskel" implementation utilizes a range based map/filter approach to detecting duplicates.
+The "Haskell" implementation utilizes a range based map/filter approach to detecting duplicates.
 
 The "PHP" implementation utilizes a nested loop apporach to intentify that the character occurs again.
 
@@ -16,8 +16,8 @@ same character. It takes quite a bit for this approach to see any performance ga
 
 ----
 
-The Haskel implementation was modified to put its performance within the relm of competition.
-![Graph Showing Haskel Change](haskel.png)
+The Haskell implementation was modified to put its performance within the relm of competition.
+![Graph Showing Haskell Change](haskell.png)
 
 A final modification to the Haskell implementation shows another improvement. This approach was the only
 one which had the potential of correctly handling unicode, as such I've removed that possability by
@@ -25,4 +25,4 @@ representing everything as a char instead of dchar. This optimization didn't ass
 
 This change places Haskell's approach in competation with Go.
 
-![Haskell with no Unicode](haskel2.png)
+![Haskell with no Unicode](haskell2.png)

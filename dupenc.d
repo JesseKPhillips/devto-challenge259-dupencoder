@@ -46,13 +46,13 @@ void main() {
     ////
 
     makeBenchmark!(duplicateEncode_php)("php");
-    makeBenchmark!(duplicateEncode_haskel)("haskel");
+    makeBenchmark!(duplicateEncode_haskell)("haskell");
     makeBenchmark!(duplicateEncode_pointer)("pointer");
     makeBenchmark!(duplicateEncode_go)("go");
 }
 
 // https://dev.to/jvanbruegge/comment/10e2g
-string duplicateEncode_haskel(string input) {
+string duplicateEncode_haskell(string input) {
     import std.string : representation;
     auto str = input.toLower().representation;
 
@@ -62,10 +62,10 @@ string duplicateEncode_haskel(string input) {
         .map!(x => x > 1 ? MANY : ONCE)
         .to!string;
 } unittest {
-    auto ans = duplicateEncode_haskel("Success");
+    auto ans = duplicateEncode_haskell("Success");
     assert(ans == ")())())", ans);
 
-    ans = duplicateEncode_haskel("(( @");
+    ans = duplicateEncode_haskell("(( @");
     assert(ans == "))((", ans);
 }
 

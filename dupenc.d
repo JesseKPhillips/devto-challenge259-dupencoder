@@ -121,6 +121,7 @@ string duplicateEncode_go(string str) {
     import std.ascii : toLower;
     char[] encoded;
     int[dchar] occurences;
+    encoded.reserve(str.length);
 
     foreach(character; str)
         occurences[toLower(character)]++;

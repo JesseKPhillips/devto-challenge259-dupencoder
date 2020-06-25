@@ -123,17 +123,18 @@ string duplicateEncode_pointer(string str) {
     assert(ans == "))((", ans);
 }
 
+// https://dev.to/aminnairi/comment/10e63
 string duplicateEncode_go(string str) {
     import std.ascii : toLower;
     char[] encoded;
-    int[dchar] occurences;
+    int[dchar] occurrences;
     encoded.reserve(str.length);
 
     foreach(character; str)
-        occurences[toLower(character)]++;
+        occurrences[toLower(character)]++;
 
     foreach(character; str) {
-        if(occurences[toLower(character)] > 1)
+        if(occurrences[toLower(character)] > 1)
            encoded ~= MANY;
         else
            encoded ~= ONCE;

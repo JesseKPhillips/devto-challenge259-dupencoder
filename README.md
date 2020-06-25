@@ -31,3 +31,12 @@ This change places Haskell's approach in competation with Go.
 [Commit for Change](https://github.com/JesseKPhillips/devto-challenge259-dupencoder/commit/90c26b97fb73e12e8f01bea922477c7c8e107e04)
 
 ![Haskell with no Unicode](haskell2.png)
+
+----
+
+I posted to the the [D Forum](https://forum.dlang.org/post/ottuukcltseoanhxmwab@forum.dlang.org) and
+recieved a recommendation for updating the pointer algorithm to make it the fastest. And I made that change.
+
+[Commit for Change](https://github.com/JesseKPhillips/devto-challenge259-dupencoder/commit/867afc95afbc16f06135061a890b1893b12a3bfc)
+
+![Pointer Improvement](pointer2.png)

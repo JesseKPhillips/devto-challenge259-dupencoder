@@ -48,6 +48,7 @@ void main() {
     makeBenchmark!(duplicateEncode_php)("php");
     makeBenchmark!(duplicateEncode_haskell)("haskell");
     makeBenchmark!(duplicateEncode_pointer)("pointer");
+    makeBenchmark!(duplicateEncode_pointer2)("pointer2");
     makeBenchmark!(duplicateEncode_go)("go");
 }
 
@@ -116,6 +117,33 @@ string duplicateEncode_pointer(string str) {
     assert(ans == ")())())", ans);
 
     ans = duplicateEncode_pointer("(( @");
+    assert(ans == "))((", ans);
+}
+
+// https://forum.dlang.org/post/ottuukcltseoanhxmwab@forum.dlang.org
+string duplicateEncode_pointer2(string str) {
+    import std.ascii : toLower;
+    auto result = str.dup;
+    char*[256] locMap;
+
+    foreach(ref c; result)
+    {
+        auto p = &locMap[c.toLower()];
+        if (*p)
+            **p = c = MANY;
+        else
+        {
+            c = ONCE;
+            *p = &c;
+        }
+    }
+
+    return result.to!string;
+} unittest {
+    auto ans = duplicateEncode_pointer2("Success");
+    assert(ans == ")())())", ans);
+
+    ans = duplicateEncode_pointer2("(( @");
     assert(ans == "))((", ans);
 }
 

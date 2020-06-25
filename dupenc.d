@@ -49,6 +49,7 @@ void main() {
     makeBenchmark!(duplicateEncode_haskell)("haskell");
     makeBenchmark!(duplicateEncode_pointer)("pointer");
     makeBenchmark!(duplicateEncode_go)("go");
+    makeBenchmark!(duplicateEncode_go2)("go2");
 }
 
 // https://dev.to/jvanbruegge/comment/10e2g
@@ -127,13 +128,13 @@ string duplicateEncode_pointer(string str) {
 string duplicateEncode_go(string str) {
     import std.ascii : toLower;
     char[] encoded;
-    int[dchar] occurrences;
+    int[char] occurrences;
     encoded.reserve(str.length);
 
-    foreach(character; str)
+    foreach(char character; str)
         occurrences[toLower(character)]++;
 
-    foreach(character; str) {
+    foreach(char character; str) {
         if(occurrences[toLower(character)] > 1)
            encoded ~= MANY;
         else
@@ -146,5 +147,31 @@ string duplicateEncode_go(string str) {
     assert(ans == ")())())", ans);
 
     ans = duplicateEncode_go("(( @");
+    assert(ans == "))((", ans);
+}
+
+// https://forum.dlang.org/post/ottuukcltseoanhxmwab@forum.dlang.org
+string duplicateEncode_go2(string str) {
+    import std.ascii : toLower;
+    char[] encoded;
+    int[256] occurrences;
+    encoded.reserve(str.length);
+
+    foreach(char character; str)
+        occurrences[toLower(character)]++;
+
+    foreach(character; str) {
+        if(occurrences[toLower(character)] > 1)
+           encoded ~= MANY;
+        else
+           encoded ~= ONCE;
+    }
+
+    return encoded.to!string;
+} unittest {
+    auto ans = duplicateEncode_go2("Success");
+    assert(ans == ")())())", ans);
+
+    ans = duplicateEncode_go2("(( @");
     assert(ans == "))((", ans);
 }

@@ -96,19 +96,23 @@ string duplicateEncode_php(string str) {
     assert(ans == "))((", ans);
 }
 
+// https://forum.dlang.org/post/ottuukcltseoanhxmwab@forum.dlang.org
 string duplicateEncode_pointer(string str) {
     import std.ascii : toLower;
     auto result = str.dup;
-    char*[][char] locMap;
+    char*[256] locMap;
 
     foreach(ref c; result)
-        locMap[c.toLower] ~= &c;
-
-    foreach(v; locMap)
-        if(v.length > 1)
-            v.each!(x => *x = MANY);
+    {
+        auto p = &locMap[c.toLower()];
+        if (*p)
+            **p = c = MANY;
         else
-            v.each!(x => *x = ONCE);
+        {
+            c = ONCE;
+            *p = &c;
+        }
+    }
 
     return result.to!string;
 } unittest {
